@@ -1,9 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using TaskManagementApplication.Data;
 using TaskManagementApplication.Models;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace TaskManagementApplication.Services
 {
@@ -16,30 +12,9 @@ namespace TaskManagementApplication.Services
             _taskDbContext = taskDbContext;
         }
 
-        public async Task<Models.Task> AddTaskAsync(Models.Task task)
+        public async Task<IList<Models.Task>?> GetAllByFilterAsync(string userId, Priority? priority, Status? status, string searchQuery, DateTime? fromDate, DateTime? toDate)
         {
-            await _taskDbContext.AddAsync(task);
-            await _taskDbContext.SaveChangesAsync();
-
-            return task;
-        }
-
-        public async Task<Models.Task?> DeleteTaskAsync(int id)
-        {
-            var result = await _taskDbContext.Tasks.FindAsync(id);
-
-            if (result != null)
-            {
-                _taskDbContext.Tasks.Remove(result);
-                await _taskDbContext.SaveChangesAsync();
-            }
-
-            return result;
-        }
-
-        public async Task<IList<Models.Task>?> GetAllByFilterAsync(Priority? priority, Status? status, string searchQuery, DateTime? fromDate, DateTime? toDate)
-        {
-            var tasks = _taskDbContext.Tasks.AsQueryable();
+            var tasks = _taskDbContext.Tasks.Where(t => t.UserId == userId).AsQueryable();
 
             if (priority.HasValue)
             {
@@ -53,7 +28,7 @@ namespace TaskManagementApplication.Services
 
             if (!string.IsNullOrEmpty(searchQuery))
             {
-                tasks = tasks.Where(t => t.Title.Contains(searchQuery) || t.Description == null || t.Description.Contains(searchQuery));
+                tasks = tasks.Where(t => t.Title.Contains(searchQuery) || t.Description.Contains(searchQuery));
             }
 
             if (fromDate.HasValue)
@@ -69,18 +44,22 @@ namespace TaskManagementApplication.Services
             return await tasks.ToListAsync();
         }
 
-
-        public async Task<Models.Task?> GetByIdAsync(int id)
+        public async Task<Models.Task?> GetByIdAsync(string userId, int id)
         {
-            var result = await _taskDbContext.Tasks.FindAsync(id);
-
-            return result;
+            return await _taskDbContext.Tasks.FirstOrDefaultAsync(t => t.Id == id && t.UserId == userId);
         }
 
-
-        public async Task<Models.Task?> UpdateTaskAsync(Models.Task task)
+        public async Task<Models.Task> AddTaskAsync(string userId, Models.Task task)
         {
-            var existingTask = await _taskDbContext.Tasks.FindAsync(task.Id);
+            task.UserId = userId;
+            await _taskDbContext.Tasks.AddAsync(task);
+            await _taskDbContext.SaveChangesAsync();
+            return task;
+        }
+
+        public async Task<Models.Task?> UpdateTaskAsync(string userId, Models.Task task)
+        {
+            var existingTask = await _taskDbContext.Tasks.FirstOrDefaultAsync(t => t.Id == task.Id && t.UserId == userId);
 
             if (existingTask != null)
             {
@@ -95,6 +74,19 @@ namespace TaskManagementApplication.Services
             }
 
             return existingTask;
+        }
+
+        public async Task<Models.Task?> DeleteTaskAsync(string userId, int id)
+        {
+            var task = await _taskDbContext.Tasks.FirstOrDefaultAsync(t => t.Id == id && t.UserId == userId);
+
+            if (task != null)
+            {
+                _taskDbContext.Tasks.Remove(task);
+                await _taskDbContext.SaveChangesAsync();
+            }
+
+            return task;
         }
     }
 }

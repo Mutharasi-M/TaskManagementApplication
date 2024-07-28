@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using TaskManagementApplication.Areas.Identity.Data;
 
 namespace TaskManagementApplication.Models
 {
@@ -25,6 +26,11 @@ namespace TaskManagementApplication.Models
 
         [Required(ErrorMessage = "Status is required")]
         public Status Status { get; set; } = Status.Pending;
+
+        [ForeignKey("User")]
+        public string UserId { get; set; }
+
+        public ApplicationUser User { get; set; }
 
     }
 }

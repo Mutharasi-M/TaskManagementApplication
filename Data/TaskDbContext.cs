@@ -1,24 +1,24 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
+using TaskManagementApplication.Areas.Identity.Data;
 
-namespace TaskManagementApplication.Data
+public class TaskDbContext : IdentityDbContext<ApplicationUser>
 {
-    public class TaskDbContext : DbContext
+    public TaskDbContext(DbContextOptions<TaskDbContext> options) : base(options) { }
+
+    public DbSet<TaskManagementApplication.Models.Task> Tasks { get; set; }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        base.OnModelCreating(modelBuilder);
 
-        public TaskDbContext(DbContextOptions<TaskDbContext> options) : base(options)
+        modelBuilder.Entity<TaskManagementApplication.Models.Task>(entity =>
         {
-        }
-        public DbSet<Models.Task> Tasks { get; set; }
-
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            base.OnModelCreating(modelBuilder);
-
-            modelBuilder.Entity<Models.Task>(entity =>
-            {
-                entity.HasKey(e => e.Id);
-                entity.Property(e => e.Title).IsRequired();
-            });
-        }
+            entity.HasKey(e => e.Id);
+            entity.Property(e => e.Title).IsRequired();
+            entity.HasOne(e => e.User)
+                  .WithMany(u => u.Tasks)
+                  .HasForeignKey(e => e.UserId);
+        });
     }
 }

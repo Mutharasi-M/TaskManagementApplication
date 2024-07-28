@@ -1,4 +1,4 @@
-﻿@model List<TaskManagementApplication.Models.Task>;
+﻿@model List<TaskManagementApplication.ViewModels.TaskVm>;
 
 @using TaskManagementApplication.Helpers
 @using TaskManagementApplication.Models;
@@ -68,7 +68,14 @@
                 {
                     <tr>
                         <td>@task.Title</td>
-                        <td>@task.DateTime?.ToString("g")</td>
+                        <td>
+                            @task.DateTime?.ToString("g") &nbsp; &nbsp;
+                            @if (task.DateTime.HasValue && task.DateTime.Value <= DateTime.Now.AddDays(3) && task.DateTime.Value >= DateTime.Now)
+                            {
+                                <span class="badge bg-primary">Upcoming</span>
+                            }
+                        </td>
+
                         <td>
                             <span class="badge @BadgeHelper.GetPriorityBadgeClass(task.Priority)">@task.Priority</span>
                         </td>
