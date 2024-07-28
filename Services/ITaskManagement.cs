@@ -4,6 +4,8 @@ namespace TaskManagementApplication.Services
 {
     public interface ITaskManagement
     {
+        // all methods uses userid parameter
+
         /// <summary> Retrieves tasks filtered by priority, status and search with title or description.</summary>
         /// <param name="priority">The priority to filter by</param>
         /// <param name="status">The status to filter by</param>

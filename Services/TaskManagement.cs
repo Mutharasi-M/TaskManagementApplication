@@ -28,7 +28,7 @@ namespace TaskManagementApplication.Services
 
             if (!string.IsNullOrEmpty(searchQuery))
             {
-                tasks = tasks.Where(t => t.Title.Contains(searchQuery) || t.Description.Contains(searchQuery));
+                tasks = tasks.Where(t => t.Title.Contains(searchQuery) || (t.Description != null ? t.Description.Contains(searchQuery) : false));
             }
 
             if (fromDate.HasValue)
