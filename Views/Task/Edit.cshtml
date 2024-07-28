@@ -1,0 +1,90 @@
+﻿@model TaskManagementApplication.Models.Task
+
+@using TaskManagementApplication.Models
+
+@{
+    ViewData["Title"] = "Edit Task";
+    var priorities = Enum.GetValues(typeof(Priority)).Cast<Priority>();
+    var statuses = Enum.GetValues(typeof(Status)).Cast<Status>();
+}
+
+@if (Model != null)
+{
+    <div class="container mt-4">
+
+        <h2 style="text-align: center;">Edit Task</h2>
+
+        <form asp-action="Edit" method="post" novalidate>
+            <input id="id" name="id" type="hidden" value="@Model.Id" />
+
+            <div class="mb-3">
+                <label for="title" class="form-label">Title</label>
+                <input type="text" class="form-control" id="title" name="Title" value="@Model.Title" required>
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label for="description" class="form-label">Description</label>
+                <textarea class="form-control" id="description" name="Description">@Model.Description</textarea>
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label for="datetime" class="form-label">Date and Time</label>
+                <input type="datetime-local" class="form-control" id="datetime" name="DateTime" value="@Model.DateTime?.ToString("yyyy-MM-ddTHH:mm")">
+                <span asp-validation-for="DateTime" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label for="priority" class="form-label">Priority</label>
+                <select class="form-select" id="priority" name="Priority">
+                    @foreach (var priority in priorities)
+                    {
+                        if (priority == Model.Priority)
+                        {
+                            <option value="@priority" selected>@priority</option>
+                        }
+                        else
+                        {
+                            <option value="@priority">@priority</option>
+                        }
+                    }
+                </select>
+                <span asp-validation-for="Priority" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label for="status" class="form-label">Status</label>
+                <select class="form-select" id="status" name="Status">
+                    @foreach (var status in statuses)
+                    {
+                        if (status == Model.Status)
+                        {
+                            <option value="@status" selected>@status</option>
+                        }
+                        else
+                        {
+                            <option value="@status">@status</option>
+                        }
+                    }
+                </select>
+                <span asp-validation-for="Status" class="text-danger"></span>
+            </div>
+
+            <button type="submit" class="btn btn-primary float-end">Submit</button>
+        </form>
+
+    </div>
+}
+else
+{
+    <div class="alert alert-info">
+        <p>No tasks found.</p>
+        <br />
+        <a asp-action="Index" class="btn btn-secondary">Back to Task List</a>
+    </div>
+}
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
