@@ -9,6 +9,9 @@ Overview
   The application uses Entity Framework Core for data access and Microsoft Identity for user authentication.
 
 
+
+
+
 Features
 
   Task Management: Create, read, update, delete tasks.
@@ -24,6 +27,10 @@ Features
   Validation: Client-side and server-side validation for task forms.
 
 
+
+
+
+
 Technologies Used
 
   ASP.NET Core MVC - version 6
@@ -37,6 +44,9 @@ Technologies Used
   jQuery
 
 
+
+
+
 Prerequisites
 
   .NET 6 SDK
@@ -47,9 +57,13 @@ Prerequisites
 
 
 
-Getting Started
 
-  Setup and Installation
+
+
+Getting Started 
+
+Setup and Installation
+
 
 
 For Database:
@@ -61,14 +75,23 @@ For Database:
   The application uses Entity Framework Core for data access. Ensure the database is properly configured and migrations are applied.
 
 
+
+
 Installed Packages
 
   Microsoft.AspNetCore.Identity.EntityFrameworkCore --version 6.0.32
+  
   Microsoft.AspNetCore.Identity.UI --version 6.0.32
+  
   Microsoft.EntityFrameworkCore --version 6.0.32
+  
   Microsoft.EntityFrameworkCore.SqlServer --version 6.0.32
+  
   Microsoft.EntityFrameworkCore.Tools --version 6.0.32
+  
   Microsoft.VisualStudio.Web.CodeGeneration.Design --version 6.0.17
+
+
 
 
 Database Setup
@@ -118,6 +141,11 @@ public enum Status
 }
 
 
+
+
+
+
+
 Views
   Index View
     Displays a list of tasks with filtering options by status, priority, search with title and description.
@@ -134,24 +162,37 @@ Views
   Delete View
     Confirmation page to delete a task.
 
+
+
 Controllers
+
   TaskController
     Handles CRUD operations for tasks.
 
+
+
 Styling
   This application uses Bootstrap for a clean and responsive design. Different styles or badges indicate task priority and status.
+
+
 
 Validation
   Client-side and server-side validation are implemented for task forms to ensure data integrity.
 
 
+
+
 Search and Filter
   Search: Find tasks by title or description.
   Filter: Filter tasks by due date, priority, and status.
+
+
   
 Bonus Features
+
   User Authentication
     Implemented using Microsoft Identity, allowing multiple users to register, login, and manage their tasks.
+
   
   upcoming reminder
     Live Countdown: Displays a live countdown timer for tasks that are upcoming within 3 days.
