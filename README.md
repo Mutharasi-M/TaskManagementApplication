@@ -149,19 +149,24 @@ public enum Status
 Views
   Index View
     Displays a list of tasks with filtering options by status, priority, search with title and description.
-  
+    ![image](https://github.com/user-attachments/assets/819627e7-b3ea-472a-86cf-f69eb23674a7)
+
   Details View
     Shows detailed information about a task.
-  
+    ![image](https://github.com/user-attachments/assets/6d899c5a-61e4-4a65-8c33-46cdc3800cef)
+
   Create View
     Form to add a new task.
-  
+    ![image](https://github.com/user-attachments/assets/8a33978b-4704-4978-a023-2819842b20da)
+
   Edit View
     Form to edit an existing task.
+    ![image](https://github.com/user-attachments/assets/bf7cd49e-57ae-4682-a987-e5afe70aa616)
+
   
   Delete View
     Confirmation page to delete a task.
-
+    ![image](https://github.com/user-attachments/assets/78a3d4a2-c1db-4c3c-a9af-ae8600aea36c)
 
 
 Controllers
